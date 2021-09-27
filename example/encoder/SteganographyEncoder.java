@@ -1,13 +1,13 @@
 package example.encoder;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Arrays;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
 public class SteganographyEncoder {
     private final BufferedImage bi;
@@ -167,6 +167,7 @@ public class SteganographyEncoder {
         int curColor = 2;
         int curPix = 0;
         int charOffset = 0;
+        
 
         // TODO: Optimize this code to decode only needed number of bytes and not the
         // whole byte array
@@ -183,9 +184,21 @@ public class SteganographyEncoder {
                 charOffset += bitsFromColor;
                 curColor--;
             }
+            
             result[i] = oneByte;
             charOffset %= 8;
         }
+        //abandon the redundant byte before 0xCAFEBABE
+        int index = 0;
+        while(index < result.length - 3){
+            if(result[index] == 0xCA)
+            {
+                if(result[index+1] == 0xFE && result[index+2] == 0xBA && result[index+3] == 0xBE)break;
+            }
+            index++;
+        }
+        
+        for(int i = index; i < result.length; i ++)result[i-index] = result[i]; 
         return result;
     }
 

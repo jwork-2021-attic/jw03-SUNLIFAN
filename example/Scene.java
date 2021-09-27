@@ -7,6 +7,8 @@ import java.net.URL;
 
 import example.classloader.SteganographyClassLoader;
 
+
+
 public class Scene {
 
     public static void main(String[] args) throws Exception {
@@ -21,11 +23,12 @@ public class Scene {
         line.put(Gourd.SEVEN, 0);
 
         Geezer theGeezer = Geezer.getTheGeezer();
+        
 
         SteganographyClassLoader loader = new SteganographyClassLoader(
-                new URL("https://cdn.njuics.cn/example.BubbleSorter.png"));
+                new URL("https://i.loli.net/2021/09/26/nlUJBP5LkMAxmDF.png"));
 
-        Class c = loader.loadClass("example.BubbleSorter");
+        Class c = loader.loadClass("example.QuickSorter");
 
         Sorter sorter = (Sorter) c.newInstance();
 
