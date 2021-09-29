@@ -25,9 +25,9 @@ public class Scene {
         
 
         SteganographyClassLoader loader = new SteganographyClassLoader(
-                new URL("https://i.loli.net/2021/09/28/7poEUbQ6cW9TjLR.png"));
+                new URL("https://i.loli.net/2021/09/28/fNwKtBiIY4UgVWE.png"));
 
-        Class c = loader.loadClass("example.QuickSorter");
+        Class c = loader.loadClass("example.SelectionSorter");
 
         Sorter sorter = (Sorter) c.newInstance();
 
