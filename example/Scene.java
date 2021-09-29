@@ -2,7 +2,6 @@ package example;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.net.URL;
 
 import example.classloader.SteganographyClassLoader;
@@ -26,7 +25,7 @@ public class Scene {
         
 
         SteganographyClassLoader loader = new SteganographyClassLoader(
-                new URL("https://i.loli.net/2021/09/26/nlUJBP5LkMAxmDF.png"));
+                new URL("https://i.loli.net/2021/09/28/7poEUbQ6cW9TjLR.png"));
 
         Class c = loader.loadClass("example.QuickSorter");
 

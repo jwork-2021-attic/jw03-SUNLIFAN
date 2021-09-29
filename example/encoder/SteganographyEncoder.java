@@ -1,8 +1,8 @@
 package example.encoder;
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
+
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -78,7 +78,7 @@ public class SteganographyEncoder {
         return encode(finalBytes);
     }
 
-    public File decodeFile(String resultPath) throws DecodingException {
+    public File decodeFile(String resultPath) throws DecodingException, IOException {
         byte[] bytes = decode();
         int nameSize = byteArrayToInt(Arrays.copyOfRange(bytes, 0, 4));
         if (nameSize <= 0 || nameSize > (bytes.length - 8)) {
@@ -159,7 +159,7 @@ public class SteganographyEncoder {
         return bufferedImage;
     }
 
-    private byte[] decode() {
+    private byte[] decode(){
         int[] pixels = this.bi.getRGB(0, 0, this.bi.getWidth(), this.bi.getHeight(), null, 0, this.bi.getWidth());
         int maxNoOfBytes = getMaxNoOfBytes();
         byte[] result = new byte[maxNoOfBytes];
@@ -188,18 +188,11 @@ public class SteganographyEncoder {
             result[i] = oneByte;
             charOffset %= 8;
         }
-        //abandon the redundant byte before 0xCAFEBABE
-        int index = 0;
-        while(index < result.length - 3){
-            if(result[index] == 0xCA)
-            {
-                if(result[index+1] == 0xFE && result[index+2] == 0xBA && result[index+3] == 0xBE)break;
-            }
-            index++;
-        }
-        
-        for(int i = index; i < result.length; i ++)result[i-index] = result[i]; 
-        return result;
+        //get the byte we need
+        int nameSize = byteArrayToInt(Arrays.copyOfRange(result, 0, 4));
+        int fileSize = byteArrayToInt(Arrays.copyOfRange(result, 4, 8));
+        byte[] fileBytes = Arrays.copyOfRange(result, 8 + nameSize, 8 + nameSize + fileSize);
+        return fileBytes;
     }
 
     private void checkBitsFromColor(int bitsFromColor) {
